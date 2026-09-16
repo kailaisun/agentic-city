@@ -121,7 +121,8 @@ def draw_raster(ax, a, cmap, vmin, vmax, title=""):
         vmax = vmin + 1
     cm = plt.get_cmap(cmap).copy()
     cm.set_bad("#f0f0f0")
-    im = ax.imshow(a, cmap=cm, vmin=vmin, vmax=vmax, interpolation="nearest")
+    im = ax.imshow(a, cmap=cm, vmin=vmin, vmax=vmax, interpolation="nearest",
+                   aspect="auto")
     ax.set_title(title, fontsize=9)
     ax.set_xticks([])
     ax.set_yticks([])
@@ -134,17 +135,22 @@ def draw_coarse(ax, a, cmap, vmin, vmax, title=""):
         vmin, vmax = robust(a)
     if vmin == vmax:
         vmax = vmin + 1
-    im = ax.imshow(a, cmap=cmap, vmin=vmin, vmax=vmax, interpolation="nearest")
+    im = ax.imshow(a, cmap=cmap, vmin=vmin, vmax=vmax, interpolation="nearest",
+                   aspect="auto")
     h, w = a.shape
     if h * w <= 64:
         for i in range(h):
             for j in range(w):
                 if np.isfinite(a[i, j]):
-                    ax.text(
+                    t = ax.text(
                         j, i, f"{a[i, j]:.3g}",
                         ha="center", va="center", fontsize=6, color="black",
                     )
-    ax.set_title(title, fontsize=9)
+                    # keep the numbers out of tight_layout: their width changes with
+                    # the values, which would nudge the whole grid by a sub-pixel
+                    # amount between years and break panel-to-panel alignment
+                    t.set_in_layout(False)
+        ax.set_title(title, fontsize=9)
     ax.set_xticks([])
     ax.set_yticks([])
     return im
@@ -275,16 +281,28 @@ def main():
     n = len(order)
     ncol = 6
     nrow = int(np.ceil(n / ncol))
-    fig, axes = plt.subplots(nrow, ncol, figsize=(3.0 * ncol, 3.2 * nrow))
-    axes = np.atleast_1d(axes).ravel()
+    # Explicit axes rectangles: every panel gets exactly the same box in every
+    # year, so the three montages overlay panel for panel. (tight_layout and the
+    # default aspect='equal' both size panels from their content, which drifts.)
+    fig = plt.figure(figsize=(3.0 * ncol, 3.2 * nrow))
+    left, right, top, bottom = 0.010, 0.995, 0.940, 0.010
+    gapx, gapy = 0.004, 0.012
+    pw = (right - left - (ncol - 1) * gapx) / ncol
+    ph = (top - bottom - (nrow - 1) * gapy) / nrow
+    axes = []
+    for i in range(n):
+        r, c = divmod(i, ncol)
+        axes.append(fig.add_axes([left + c * (pw + gapx),
+                                  top - (r + 1) * ph - r * gapy,
+                                  pw, ph]))
     n_missing = 0
-    for ax, m in zip(axes, order):
+    for slot, (ax, m) in enumerate(zip(axes, order), start=1):
         if m not in panels:
             n_missing += 1
             ax.set_facecolor("#f2f2f2")
             ax.text(0.5, 0.5, "not available\nfor this year", ha="center", va="center",
                     fontsize=8, color="#999999", transform=ax.transAxes)
-            ax.set_title(f"{m}\n(missing)", fontsize=9, color="#999999")
+            ax.set_title(f"{slot}. {m}\n(missing)", fontsize=9, color="#999999")
             ax.set_xticks([])
             ax.set_yticks([])
             for sp in ax.spines.values():
@@ -292,16 +310,15 @@ def main():
                 sp.set_linestyle("--")
             continue
         arr, style, unit, small = panels[m]
+        label = f"{slot}. {m}"
         if arr.ndim == 3:
-            ax.imshow(arr.astype("uint8"))
-            ax.set_title(m, fontsize=9)
+            ax.imshow(arr.astype("uint8"), aspect="auto")
+            ax.set_title(label, fontsize=9)
             ax.axis("off")
         else:
             cmap, vmin, vmax = style
-            draw_coarse(ax, arr, cmap, vmin, vmax, m) if small else \
-                draw_raster(ax, arr, cmap, vmin, vmax, m)
-    for ax in axes[n:]:
-        ax.axis("off")
+            draw_coarse(ax, arr, cmap, vmin, vmax, label) if small else \
+                draw_raster(ax, arr, cmap, vmin, vmax, label)
     fig.suptitle(
         f"Singapore · 2KM tile {args.tile} · {args.year} · "
         + (f"{len(panels)} modalities" if len(panels) == n
@@ -309,7 +326,6 @@ def main():
         + (f" · {n_missing} not available this year" if n_missing else ""),
         fontsize=16, y=0.997,
     )
-    fig.tight_layout(rect=[0, 0, 1, 0.985])
     fig.savefig(os.path.join(args.out, "overview_montage.png"), dpi=100)
     plt.close(fig)
 
