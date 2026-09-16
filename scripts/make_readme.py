@@ -65,6 +65,11 @@ def main():
     L.append("| `per_modality/<name>.png` | every band of one modality, with its own colour scale |")
     L.append("| `tile_location.png` | the 2 KM tile grid of Singapore with this tile highlighted |")
     L.append("| `modality_stats.csv` | per-band min / mean / median / max / valid-pixel fraction |\n")
+    L.append("The overview montage uses a **fixed slot per modality** shared with the other "
+             "rendered years of this tile, so panels can be compared across years without "
+             "hunting for them. Modalities that do not exist for this year are drawn as grey "
+             "`(missing)` placeholders instead of shifting the layout, which makes the "
+             "coverage drift of the collection directly visible.\n")
 
     L.append("## Modalities in this tile\n")
     L.append("| modality | bands | raster | unit | band names | valid % |")

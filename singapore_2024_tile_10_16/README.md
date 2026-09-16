@@ -7,46 +7,50 @@ One tile of the **Urban-bench** dataset (source archive `Singapore.tar` from [`f
 | property | value |
 |---|---|
 | tile id | `10_16` (row 10, col 16) |
-| city / year | Singapore / 2025 |
+| city / year | Singapore / 2024 |
 | size | 2 km × 2 km (512 × 512 px for native rasters) |
 | centroid (WGS84) | 103.85847, 1.29351 |
 | projected CRS | EPSG:32648 (WGS 84 / UTM zone 48N) |
 | location | City Hall / downtown core, Singapore |
-| modalities present | 22 |
+| modalities present | 24 |
 
 ## Figures
 
 | file | what it shows |
 |---|---|
-| `overview_montage.png` | all 22 modalities side by side (band 1, or RGB for imagery) |
+| `overview_montage.png` | all 24 modalities side by side (band 1, or RGB for imagery) |
 | `per_modality/<name>.png` | every band of one modality, with its own colour scale |
 | `tile_location.png` | the 2 KM tile grid of Singapore with this tile highlighted |
 | `modality_stats.csv` | per-band min / mean / median / max / valid-pixel fraction |
+
+The overview montage uses a **fixed slot per modality** shared with the other rendered years of this tile, so panels can be compared across years without hunting for them. Modalities that do not exist for this year are drawn as grey `(missing)` placeholders instead of shifting the layout, which makes the coverage drift of the collection directly visible.
 
 ## Modalities in this tile
 
 | modality | bands | raster | unit | band names | valid % |
 |---|---|---|---|---|---|
 | `BuildingHeight_3DGloBFP` | 1 | 512x512 | — | band 1 | 100.0 |
-| `BuiltVolume_GHSL` | 2 | 512x512 | — | total built-volume density, m3/m2, non-residential built-volume den... | 100.0 |
 | `DEM` | 1 | 512x512 | — | band 1 | 100.0 |
 | `Economic_Property` | 4 | 512x512 | SGD | property_value_median_local_currency, property_value_mean_local_cur... | 100.0 |
 | `Economic_Property_2017ppp_gdp` | 4 | 512x512 | SGD | property_value_median_local_currency, property_value_mean_local_cur... | 100.0 |
+| `Economy_GDP_PPP_1km` | 1 | 2x2 | — | band 1 | 100.0 |
+| `Energy_Electricity` | 1 | 4x4 | kWh/account/500m_cell/year | band 1 | 100.0 |
 | `Height` | 1 | 512x512 | m | band 1 | 100.0 |
 | `NDVI_Landsat` | 1 | 512x512 | unitless NDVI [-1,1] | band 1 | 100.0 |
 | `NDVI_MODIS` | 1 | 512x512 | unitless NDVI [-1,1] | band 1 | 100.0 |
 | `NighttimeLights` | 1 | 4x4 | nW/cm2/sr | band 1 | 100.0 |
-| `OSM_Amenity` | 1 | 512x512 | — | band 1 | 28.1 |
-| `OSM_Building` | 1 | 512x512 | — | band 1 | 28.1 |
-| `OSM_POI` | 1 | 512x512 | — | band 1 | 28.1 |
+| `OSM_Amenity` | 1 | 512x512 | — | band 1 | 27.9 |
+| `OSM_Building` | 1 | 512x512 | — | band 1 | 27.9 |
+| `OSM_POI` | 1 | 512x512 | — | band 1 | 27.9 |
 | `OSM_Transportation` | 1 | 512x512 | — | band 1 | 100.0 |
-| `Osm` | 1 | 512x512 | — | band 1 | 5.0 |
+| `Odiac` | 1 | 2x2 | tonne carbon per 1 km cell per year | band 1 | 100.0 |
+| `Osm` | 1 | 512x512 | — | band 1 | 4.9 |
 | `Planet` | 4 | 512x512 | none | red visual display value, green visual display value, blue visual d... | 100.0 |
-| `Population_GHSL` | 1 | 512x512 | population count per native GHSL grid  | band 1 | 100.0 |
-| `RemoteSensing` | 3 | 512x512 | 8-bit RGB derived from Landsat Collect | band 1, band 2, band 3 | 99.2 |
+| `Population_GHSL` | 1 | 512x512 | — | band 1 | 100.0 |
+| `RemoteSensing` | 3 | 512x512 | 8-bit RGB derived from Landsat Collect | band 1, band 2, band 3 | 99.7 |
 | `Temperature_LandsatST` | 7 | 512x512 | degree Celsius for LST bands | lst_mean_celsius, lst_median_celsius, lst_p90_celsius, lst_p95_cels... | 100.0 |
 | `Temperature_MODISLST` | 7 | 512x512 | degree Celsius for LST bands | lst_mean_celsius, lst_median_celsius, lst_p90_celsius, lst_p95_cels... | 100.0 |
-| `Weather_CHELSA_daily` | 9 | 2x2 | — | TMIN, TMAX, TMEAN, PRCP, SRAD, RH, WIND, PRESSURE, CLOUD | 88.9 |
+| `Weather_CHELSA_daily` | 9 | 2x2 | — | TMIN, TMAX, TMEAN, PRCP, SRAD, RH, WIND, PRESSURE, CLOUD | 100.0 |
 | `Weather_terraclimate` | 10 | 2x2 | — | TMIN, TMAX, TMEAN, PRCP, SRAD, VP, RH_DERIVED, WS, SWE, SWE_MAX | 100.0 |
 | `nightlight_MVNL` | 1 | 4x4 | nW cm-2 sr-1 | band 1 | 100.0 |
 
@@ -63,6 +67,6 @@ One tile of the **Urban-bench** dataset (source archive `Singapore.tar` from [`f
 ## Reproduce
 
 ```bash
-python make_tile_viz.py --tile 10_16 --year 2025
-python make_location_map.py --tile 10_16 --year 2025
+python make_tile_viz.py --tile 10_16 --year 2024
+python make_location_map.py --tile 10_16 --year 2024
 ```

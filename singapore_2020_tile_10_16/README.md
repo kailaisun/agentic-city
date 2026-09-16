@@ -23,6 +23,8 @@ One tile of the **Urban-bench** dataset (source archive `Singapore.tar` from [`f
 | `tile_location.png` | the 2 KM tile grid of Singapore with this tile highlighted |
 | `modality_stats.csv` | per-band min / mean / median / max / valid-pixel fraction |
 
+The overview montage uses a **fixed slot per modality** shared with the other rendered years of this tile, so panels can be compared across years without hunting for them. Modalities that do not exist for this year are drawn as grey `(missing)` placeholders instead of shifting the layout, which makes the coverage drift of the collection directly visible.
+
 ## Modalities in this tile
 
 | modality | bands | raster | unit | band names | valid % |

@@ -4,7 +4,7 @@ Exploratory visualisations of urban multimodal data for agentic city modelling.
 
 ## Contents
 
-### Singapore tile `10_16` — 2015, 2020, 2025
+### Singapore tile `10_16` — 2015, 2020, 2024
 
 Every modality of a single **2 km tile** of Singapore, rendered for three years
 from the
@@ -22,15 +22,24 @@ OpenStreetMap layers.
 |---|---|---|---|---|
 | 2015 | 30 | 72 | [`overview_montage.png`](singapore_2015_tile_10_16/overview_montage.png) | [`singapore_2015_tile_10_16/`](singapore_2015_tile_10_16/) |
 | 2020 | 28 | 70 | [`overview_montage.png`](singapore_2020_tile_10_16/overview_montage.png) | [`singapore_2020_tile_10_16/`](singapore_2020_tile_10_16/) |
-| 2025 | 22 | 63 | [`overview_montage.png`](singapore_2025_tile_10_16/overview_montage.png) | [`singapore_2025_tile_10_16/`](singapore_2025_tile_10_16/) |
+| 2024 | 24 | 64 | [`overview_montage.png`](singapore_2024_tile_10_16/overview_montage.png) | [`singapore_2024_tile_10_16/`](singapore_2024_tile_10_16/) |
 
-The modality count drops over the decade because several products have not been
-extended past their last release: 2025 has no `Odiac` carbon emission, no air
-quality, no `Energy_Electricity` / `Electricity Consumption`, no `Economy_GDP_PPP_1km`,
-no `GreenLandCover` and no `LandUse_HILDA`, while 2015 still carries
-`AirQualityNO2` and the modelled electricity layer. Comparing the three montages
-side by side makes that coverage drift visible. The per-year `README.md` and
-`modality_stats.csv` list exactly what is present.
+#### The three montages are slot-aligned
+
+All three use the same **1800 × 1600** layout with **one fixed grid position per
+modality**, taken from the union of the three years. A modality that does not
+exist for a given year is drawn as a grey `(missing)` placeholder rather than
+disappearing and shifting everything after it, so the same panel can be compared
+across years without hunting for it. The banner states how many of the 30 slots
+that year actually fills.
+
+This also makes the coverage drift of the collection readable at a glance. 2015
+fills all 30 slots; 2020 is missing `AirQualityNO2` and
+`Electricity Consumption 1km Modelled`; 2024 is missing six — `AirQualityNO2`,
+`AirQualityPM25`, `BuiltVolume_GHSL`,
+`Electricity Consumption 1km Modelled`, `GreenLandCover` and `LandUse_HILDA` —
+because those products were not extended past their last release. The per-year
+`README.md` and `modality_stats.csv` list exactly what is present.
 
 Each year folder contains the same set of files:
 
@@ -48,9 +57,13 @@ Reproducible generators for the figures above:
 
 ```bash
 R=/path/to/Urban-bench/Singapore/2KM
-python scripts/make_tile_viz.py     --tile 10_16 --year 2025 --root $R/2025 --out singapore_2025_tile_10_16
-python scripts/make_location_map.py --tile 10_16 --year 2025 --root $R/2025 --out singapore_2025_tile_10_16/tile_location.png
-python scripts/make_readme.py       --tile 10_16 --year 2025 --root $R/2025 --out singapore_2025_tile_10_16/README.md
+CAN="$R/2015,$R/2020,$R/2024"          # shared slot order across all three years
+python scripts/make_tile_viz.py --tile 10_16 --year 2024 --root $R/2024 \
+    --out singapore_2024_tile_10_16 --canonical-from "$CAN"
+python scripts/make_location_map.py --tile 10_16 --year 2024 --root $R/2024 \
+    --out singapore_2024_tile_10_16/tile_location.png
+python scripts/make_readme.py --tile 10_16 --year 2024 --root $R/2024 \
+    --out singapore_2024_tile_10_16/README.md
 ```
 
 Tile identifiers follow the dataset convention `<row>_<col>` (row 0–19 north→south,
