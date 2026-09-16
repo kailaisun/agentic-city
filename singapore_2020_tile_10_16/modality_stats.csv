@@ -1,0 +1,71 @@
+modality,band,band_name,unit,shape,valid_%,min,mean,max,p50
+AirQualityPM25,1,band 1,,2x2,100.0,14.1596,14.6239,15.0844,14.6257
+BuildingHeight_3DGloBFP,1,band 1,,512x512,100.0,0.0,3.7963,158.6049,0.0
+BuiltVolume_GHSL,1,"total built-volume density, m3/m2",,512x512,100.0,0.0,6.2334,53.0265,3.6389
+BuiltVolume_GHSL,2,"non-residential built-volume density, m3/m2",,512x512,100.0,0.0,2.4864,52.3707,0.1305
+DEM,1,band 1,,512x512,100.0,-6.8414,8.3271,38.1912,7.5173
+Economic_Property,1,property_value_median_local_currency,SGD,512x512,100.0,421200.0,421200.0,421200.0,421200.0
+Economic_Property,2,property_value_mean_local_currency,SGD,512x512,100.0,448267.5312,448267.7188,448267.5312,448267.5312
+Economic_Property,3,property_value_sum_local_currency,SGD,512x512,100.0,11206688.0,11206688.0,11206688.0,11206688.0
+Economic_Property,4,property_observation_count,SGD,512x512,100.0,25.0,25.0,25.0,25.0
+Economic_Property_2017ppp_gdp,1,property_value_median_local_currency,SGD,512x512,100.0,472943.9375,472943.9688,472943.9375,472943.9375
+Economic_Property_2017ppp_gdp,2,property_value_mean_local_currency,SGD,512x512,100.0,503336.6562,503336.75,503336.6562,503336.6562
+Economic_Property_2017ppp_gdp,3,property_value_sum_local_currency,SGD,512x512,100.0,12583417.0,12583422.0,12583417.0,12583417.0
+Economic_Property_2017ppp_gdp,4,property_observation_count,SGD,512x512,100.0,25.0,25.0,25.0,25.0
+Economy_GDP_PPP_1km,1,band 1,,2x2,100.0,56268156.0,387764672.0,831445248.0,331672640.0
+Energy_Electricity,1,band 1,kWh/account/500m_cell/year,4x4,100.0,78390.0,1315492.125,1655859.625,1468099.75
+GreenLandCover,1,raw fine land-cover class,,512x512,100.0,10.0,166.8919,210.0,190.0
+GreenLandCover,2,"green group: 0 non-green, 1 tree, 2 shrub, 3 grass, 4 wetland",,512x512,100.0,0.0,0.0794,4.0,0.0
+Height,1,band 1,m,512x512,100.0,0.0,3.7963,158.6049,0.0
+LandUse_HILDA,1,band 1,,512x512,100.0,1.0,20.9732,77.0,11.0
+NDVI_Landsat,1,band 1,"unitless NDVI [-1,1]",512x512,100.0,-1.0,0.2449,0.9441,0.269
+NDVI_MODIS,1,band 1,"unitless NDVI [-1,1]",512x512,100.0,0.0943,0.2539,0.3717,0.2502
+NighttimeLights,1,band 1,nW/cm2/sr,4x4,100.0,66.4684,106.6515,153.5363,108.1656
+OSM_Amenity,1,band 1,,512x512,28.09,1.0,4.4704,12.0,4.0
+OSM_Building,1,band 1,,512x512,28.09,1.0,2.1196,13.0,1.0
+OSM_POI,1,band 1,,512x512,28.09,1.0,3.6364,10.0,3.0
+OSM_Transportation,1,band 1,,512x512,100.0,38856.0391,38856.0391,38856.0391,38856.0391
+Odiac,1,band 1,tonne carbon per 1 km cell per year,2x2,100.0,8.9306,4292.2974,7686.0459,4737.1064
+Osm,1,band 1,,512x512,0.0,,,,
+Planet,1,red visual display value,none,512x512,100.0,50.0,132.6968,255.0,124.0
+Planet,2,green visual display value,none,512x512,100.0,62.0,126.4292,255.0,118.0
+Planet,3,blue visual display value,none,512x512,100.0,58.0,112.8175,254.0,104.0
+Planet,4,alpha/validity,none,512x512,100.0,255.0,255.0,255.0,255.0
+Population_GHSL,1,band 1,"population count per native GHSL grid cell, resampled to the 2km tile display grid",512x512,100.0,0.0,4126.8794,20009.6855,1267.9144
+RemoteSensing,1,band 1,8-bit RGB derived from Landsat Collection 2 Level-2 surface reflectance with a fixed 0-0.35 display stretch,512x512,98.25,1.0,61.3106,255.0,60.0
+RemoteSensing,2,band 2,8-bit RGB derived from Landsat Collection 2 Level-2 surface reflectance with a fixed 0-0.35 display stretch,512x512,100.0,1.0,58.9964,255.0,58.0
+RemoteSensing,3,band 3,8-bit RGB derived from Landsat Collection 2 Level-2 surface reflectance with a fixed 0-0.35 display stretch,512x512,96.47,1.0,38.1005,241.0,33.0
+Temperature_LandsatST,1,lst_mean_celsius,degree Celsius for LST bands,512x512,100.0,38.4095,38.4095,38.4095,38.4095
+Temperature_LandsatST,2,lst_median_celsius,degree Celsius for LST bands,512x512,100.0,38.9661,38.9661,38.9661,38.9661
+Temperature_LandsatST,3,lst_p90_celsius,degree Celsius for LST bands,512x512,100.0,42.2485,42.2485,42.2485,42.2485
+Temperature_LandsatST,4,lst_p95_celsius,degree Celsius for LST bands,512x512,100.0,42.9457,42.9457,42.9457,42.9457
+Temperature_LandsatST,5,lst_std_celsius,degree Celsius for LST bands,512x512,100.0,3.336,3.336,3.336,3.336
+Temperature_LandsatST,6,valid_fraction,degree Celsius for LST bands,512x512,100.0,1.0,1.0,1.0,1.0
+Temperature_LandsatST,7,valid_pixel_count,degree Celsius for LST bands,512x512,100.0,4489.0,4489.0,4489.0,4489.0
+Temperature_MODISLST,1,lst_mean_celsius,degree Celsius for LST bands,512x512,100.0,34.245,34.245,34.245,34.245
+Temperature_MODISLST,2,lst_median_celsius,degree Celsius for LST bands,512x512,100.0,34.34,34.34,34.34,34.34
+Temperature_MODISLST,3,lst_p90_celsius,degree Celsius for LST bands,512x512,100.0,34.704,34.704,34.704,34.704
+Temperature_MODISLST,4,lst_p95_celsius,degree Celsius for LST bands,512x512,100.0,34.722,34.722,34.722,34.722
+Temperature_MODISLST,5,lst_std_celsius,degree Celsius for LST bands,512x512,100.0,0.4715,0.4715,0.4715,0.4715
+Temperature_MODISLST,6,valid_fraction,degree Celsius for LST bands,512x512,100.0,1.0,1.0,1.0,1.0
+Temperature_MODISLST,7,valid_pixel_count,degree Celsius for LST bands,512x512,100.0,4.0,4.0,4.0,4.0
+Weather_CHELSA_daily,1,TMIN,,2x2,100.0,26.1005,26.1497,26.1987,26.1497
+Weather_CHELSA_daily,2,TMAX,,2x2,100.0,28.5852,28.5898,28.5946,28.5897
+Weather_CHELSA_daily,3,TMEAN,,2x2,100.0,27.3448,27.3668,27.3898,27.3662
+Weather_CHELSA_daily,4,PRCP,,2x2,100.0,2817.4104,2831.2571,2844.0649,2831.7764
+Weather_CHELSA_daily,5,SRAD,,2x2,100.0,196.488,196.6407,196.7967,196.6391
+Weather_CHELSA_daily,6,RH,,2x2,100.0,64.7325,64.9619,65.1847,64.9651
+Weather_CHELSA_daily,7,WIND,,2x2,100.0,4.1625,4.1749,4.1872,4.1749
+Weather_CHELSA_daily,8,PRESSURE,,2x2,100.0,1008.3168,1008.559,1008.8008,1008.5591
+Weather_CHELSA_daily,9,CLOUD,,2x2,100.0,59.8561,59.8736,59.89,59.8741
+Weather_terraclimate,1,TMIN,,2x2,100.0,24.0067,24.0348,24.0625,24.035
+Weather_terraclimate,2,TMAX,,2x2,100.0,30.9083,30.9633,31.0142,30.9654
+Weather_terraclimate,3,TMEAN,,2x2,100.0,27.4575,27.4991,27.5383,27.5002
+Weather_terraclimate,4,PRCP,,2x2,100.0,2813.8,2818.55,2822.0,2819.2002
+Weather_terraclimate,5,SRAD,,2x2,100.0,165.65,165.9021,166.2083,165.875
+Weather_terraclimate,6,VP,,2x2,100.0,3.0489,3.0495,3.0501,3.0495
+Weather_terraclimate,7,RH_DERIVED,,2x2,100.0,82.8939,83.0681,83.2546,83.0619
+Weather_terraclimate,8,WS,,2x2,100.0,2.1408,2.1462,2.1542,2.145
+Weather_terraclimate,9,SWE,,2x2,100.0,0.0,0.0,0.0,0.0
+Weather_terraclimate,10,SWE_MAX,,2x2,100.0,0.0,0.0,0.0,0.0
+nightlight_MVNL,1,band 1,nW cm-2 sr-1,4x4,100.0,14.8668,88.0552,136.2656,99.5256
