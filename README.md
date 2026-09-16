@@ -20,26 +20,34 @@ OpenStreetMap layers.
 
 | year | modalities | bands | montage | folder |
 |---|---|---|---|---|
-| 2015 | 30 | 72 | [`overview_montage.png`](singapore_2015_tile_10_16/overview_montage.png) | [`singapore_2015_tile_10_16/`](singapore_2015_tile_10_16/) |
-| 2020 | 28 | 70 | [`overview_montage.png`](singapore_2020_tile_10_16/overview_montage.png) | [`singapore_2020_tile_10_16/`](singapore_2020_tile_10_16/) |
+| 2015 | 24 | 64 | [`overview_montage.png`](singapore_2015_tile_10_16/overview_montage.png) | [`singapore_2015_tile_10_16/`](singapore_2015_tile_10_16/) |
+| 2020 | 24 | 64 | [`overview_montage.png`](singapore_2020_tile_10_16/overview_montage.png) | [`singapore_2020_tile_10_16/`](singapore_2020_tile_10_16/) |
 | 2024 | 24 | 64 | [`overview_montage.png`](singapore_2024_tile_10_16/overview_montage.png) | [`singapore_2024_tile_10_16/`](singapore_2024_tile_10_16/) |
 
-#### The three montages are slot-aligned
+#### One shared layer set (intersection of the three years)
 
-All three use the same **1800 × 1600** layout with **one fixed grid position per
-modality**, taken from the union of the three years. A modality that does not
-exist for a given year is drawn as a grey `(missing)` placeholder rather than
-disappearing and shifting everything after it, so the same panel can be compared
-across years without hunting for it. The banner states how many of the 30 slots
-that year actually fills.
+The collection is not uniform over time: 2015 carries 30 modalities, 2020 28 and
+2024 24, and six layers stop somewhere in between. Rather than leaving holes in
+the comparison, all three folders render the **24 modalities present in all three
+years**, so every year has exactly the same 24 panels in exactly the same
+positions in an identical **1800 × 1280** 6 × 4 grid, and no panel is a
+placeholder. The same 24 layers drive `per_modality/` and `modality_stats.csv` in
+every year folder.
 
-This also makes the coverage drift of the collection readable at a glance. 2015
-fills all 30 slots; 2020 is missing `AirQualityNO2` and
-`Electricity Consumption 1km Modelled`; 2024 is missing six — `AirQualityNO2`,
-`AirQualityPM25`, `BuiltVolume_GHSL`,
-`Electricity Consumption 1km Modelled`, `GreenLandCover` and `LandUse_HILDA` —
-because those products were not extended past their last release. The per-year
-`README.md` and `modality_stats.csv` list exactly what is present.
+The six layers dropped to make that possible, and where they stop:
+
+| layer | available |
+|---|---|
+| `AirQualityNO2` | 2015 only (stops after 2019) |
+| `Electricity Consumption 1km Modelled` | 2015 only (stops after 2019) |
+| `LandUse_HILDA` | 2015, 2020 (stops after 2020) |
+| `GreenLandCover` | 2015, 2020 (stops after 2022) |
+| `AirQualityPM25` | 2015, 2020 (stops after 2023) |
+| `BuiltVolume_GHSL` | 2015, 2020 (sparse snapshots) |
+
+They are easy to bring back per year with
+`--canonical-from "$CAN"` alone (union mode), which draws grey `(missing)`
+placeholders and makes the coverage drift itself the thing you see.
 
 Each year folder contains the same set of files:
 
@@ -59,7 +67,7 @@ Reproducible generators for the figures above:
 R=/path/to/Urban-bench/Singapore/2KM
 CAN="$R/2015,$R/2020,$R/2024"          # shared slot order across all three years
 python scripts/make_tile_viz.py --tile 10_16 --year 2024 --root $R/2024 \
-    --out singapore_2024_tile_10_16 --canonical-from "$CAN"
+    --out singapore_2024_tile_10_16 --canonical-from "$CAN" --canonical-intersect
 python scripts/make_location_map.py --tile 10_16 --year 2024 --root $R/2024 \
     --out singapore_2024_tile_10_16/tile_location.png
 python scripts/make_readme.py --tile 10_16 --year 2024 --root $R/2024 \

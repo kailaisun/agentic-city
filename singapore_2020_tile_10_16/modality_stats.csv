@@ -1,8 +1,5 @@
 modality,band,band_name,unit,shape,valid_%,min,mean,max,p50
-AirQualityPM25,1,band 1,,2x2,100.0,14.1596,14.6239,15.0844,14.6257
 BuildingHeight_3DGloBFP,1,band 1,,512x512,100.0,0.0,3.7963,158.6049,0.0
-BuiltVolume_GHSL,1,"total built-volume density, m3/m2",,512x512,100.0,0.0,6.2334,53.0265,3.6389
-BuiltVolume_GHSL,2,"non-residential built-volume density, m3/m2",,512x512,100.0,0.0,2.4864,52.3707,0.1305
 DEM,1,band 1,,512x512,100.0,-6.8414,8.3271,38.1912,7.5173
 Economic_Property,1,property_value_median_local_currency,SGD,512x512,100.0,421200.0,421200.0,421200.0,421200.0
 Economic_Property,2,property_value_mean_local_currency,SGD,512x512,100.0,448267.5312,448267.7188,448267.5312,448267.5312
@@ -14,10 +11,7 @@ Economic_Property_2017ppp_gdp,3,property_value_sum_local_currency,SGD,512x512,10
 Economic_Property_2017ppp_gdp,4,property_observation_count,SGD,512x512,100.0,25.0,25.0,25.0,25.0
 Economy_GDP_PPP_1km,1,band 1,,2x2,100.0,56268156.0,387764672.0,831445248.0,331672640.0
 Energy_Electricity,1,band 1,kWh/account/500m_cell/year,4x4,100.0,78390.0,1315492.125,1655859.625,1468099.75
-GreenLandCover,1,raw fine land-cover class,,512x512,100.0,10.0,166.8919,210.0,190.0
-GreenLandCover,2,"green group: 0 non-green, 1 tree, 2 shrub, 3 grass, 4 wetland",,512x512,100.0,0.0,0.0794,4.0,0.0
 Height,1,band 1,m,512x512,100.0,0.0,3.7963,158.6049,0.0
-LandUse_HILDA,1,band 1,,512x512,100.0,1.0,20.9732,77.0,11.0
 NDVI_Landsat,1,band 1,"unitless NDVI [-1,1]",512x512,100.0,-1.0,0.2449,0.9441,0.269
 NDVI_MODIS,1,band 1,"unitless NDVI [-1,1]",512x512,100.0,0.0943,0.2539,0.3717,0.2502
 NighttimeLights,1,band 1,nW/cm2/sr,4x4,100.0,66.4684,106.6515,153.5363,108.1656

@@ -12,13 +12,13 @@ One tile of the **Urban-bench** dataset (source archive `Singapore.tar` from [`f
 | centroid (WGS84) | 103.85847, 1.29351 |
 | projected CRS | EPSG:32648 (WGS 84 / UTM zone 48N) |
 | location | City Hall / downtown core, Singapore |
-| modalities present | 28 |
+| modalities present | 24 |
 
 ## Figures
 
 | file | what it shows |
 |---|---|
-| `overview_montage.png` | all 28 modalities side by side (band 1, or RGB for imagery) |
+| `overview_montage.png` | all 24 modalities side by side (band 1, or RGB for imagery) |
 | `per_modality/<name>.png` | every band of one modality, with its own colour scale |
 | `tile_location.png` | the 2 KM tile grid of Singapore with this tile highlighted |
 | `modality_stats.csv` | per-band min / mean / median / max / valid-pixel fraction |
@@ -29,17 +29,13 @@ The overview montage uses a **fixed slot per modality** shared with the other re
 
 | modality | bands | raster | unit | band names | valid % |
 |---|---|---|---|---|---|
-| `AirQualityPM25` | 1 | 2x2 | — | band 1 | 100.0 |
 | `BuildingHeight_3DGloBFP` | 1 | 512x512 | — | band 1 | 100.0 |
-| `BuiltVolume_GHSL` | 2 | 512x512 | — | total built-volume density, m3/m2, non-residential built-volume den... | 100.0 |
 | `DEM` | 1 | 512x512 | — | band 1 | 100.0 |
 | `Economic_Property` | 4 | 512x512 | SGD | property_value_median_local_currency, property_value_mean_local_cur... | 100.0 |
 | `Economic_Property_2017ppp_gdp` | 4 | 512x512 | SGD | property_value_median_local_currency, property_value_mean_local_cur... | 100.0 |
 | `Economy_GDP_PPP_1km` | 1 | 2x2 | — | band 1 | 100.0 |
 | `Energy_Electricity` | 1 | 4x4 | kWh/account/500m_cell/year | band 1 | 100.0 |
-| `GreenLandCover` | 2 | 512x512 | — | raw fine land-cover class, green group: 0 non-green, 1 tree, 2 shru... | 100.0 |
 | `Height` | 1 | 512x512 | m | band 1 | 100.0 |
-| `LandUse_HILDA` | 1 | 512x512 | — | band 1 | 100.0 |
 | `NDVI_Landsat` | 1 | 512x512 | unitless NDVI [-1,1] | band 1 | 100.0 |
 | `NDVI_MODIS` | 1 | 512x512 | unitless NDVI [-1,1] | band 1 | 100.0 |
 | `NighttimeLights` | 1 | 4x4 | nW/cm2/sr | band 1 | 100.0 |

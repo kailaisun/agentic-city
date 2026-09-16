@@ -159,15 +159,42 @@ def main():
     ap.add_argument("--year", default="2020")
     ap.add_argument("--root", default="/NFS/T5/kailais/agent/Urban-bench/Singapore/2KM/2020")
     ap.add_argument("--out", default="/NFS/T5/kailais/agent/vis_work/singapore_2020_tile_16_10")
+    ap.add_argument("--canonical-from", default=None,
+                    help="comma separated year roots; the montage then uses one fixed slot "
+                         "per modality (the union across those years) so several years can be "
+                         "compared panel by panel. Modalities absent in this year are drawn "
+                         "as placeholders instead of shifting the layout.")
+    ap.add_argument("--canonical-intersect", action="store_true",
+                    help="with --canonical-from: keep only the modalities present in ALL of "
+                         "those years (the intersection), so every year renders exactly the "
+                         "same layers with no placeholders at all.")
     args = ap.parse_args()
 
     os.makedirs(os.path.join(args.out, "per_modality"), exist_ok=True)
     mods = sorted(d for d in os.listdir(args.root) if os.path.isdir(os.path.join(args.root, d)))
 
-    panels, rows = [], []
+    # modalities common to every year in --canonical-from (or None = keep everything)
+    allowed = None
+    if args.canonical_from and args.canonical_intersect:
+        sets = []
+        for r_ in args.canonical_from.split(","):
+            r_ = r_.strip()
+            if not os.path.isdir(r_):
+                continue
+            y_ = os.path.basename(r_)
+            sets.append({m for m in os.listdir(r_)
+                         if os.path.isfile(os.path.join(r_, m, "data",
+                                                        f"{args.tile}_s2km_y{y_}.tif"))})
+        if sets:
+            allowed = set.intersection(*sets)
+            print(f"  intersection of {len(sets)} years: {len(allowed)} modalities")
+
+    panels, rows = {}, []
     for m in mods:
         tif = os.path.join(args.root, m, "data", f"{args.tile}_s2km_y{args.year}.tif")
         if not os.path.isfile(tif):
+            continue
+        if allowed is not None and m not in allowed:
             continue
         meta = load_meta(os.path.join(args.root, m))
         unit = str(meta.get("unit") or meta.get("units") or "").split(";")[0].strip()
@@ -188,7 +215,7 @@ def main():
             axes.imshow(rgb.astype("uint8"))
             axes.set_title(f"{m} — RGB composite\n{unit}", fontsize=10)
             axes.axis("off")
-            panels.append((m, rgb.astype("uint8"), None, unit, small))
+            panels[m] = (rgb.astype("uint8"), None, unit, small)
             fig.tight_layout()
             fig.savefig(os.path.join(args.out, "per_modality", f"{m}.png"), dpi=95)
             plt.close(fig)
@@ -205,7 +232,7 @@ def main():
             fig.savefig(os.path.join(args.out, "per_modality", f"{m}.png"), dpi=95)
             plt.close(fig)
             a0 = read_band(tif, 1)
-            panels.append((m, a0, STYLE.get(m, ("viridis", None, None)), unit, small))
+            panels[m] = (a0, STYLE.get(m, ("viridis", None, None)), unit, small)
 
         # ---- stats ----
         for i in range(count):
@@ -226,12 +253,45 @@ def main():
         print(f"  rendered {m} ({count} band(s))")
 
     # ---- overview montage ----
-    n = len(panels)
+    # Fixed slot per modality so several years can be compared panel by panel.
+    # Without --canonical-from we fall back to this year's own (alphabetical) order.
+    if allowed is not None:
+        # intersection mode: every year renders exactly the same layers
+        order = sorted(allowed)
+    elif args.canonical_from:
+        order = []
+        for r_ in args.canonical_from.split(","):
+            r_ = r_.strip()
+            if not os.path.isdir(r_):
+                continue
+            y_ = os.path.basename(r_)
+            for m in sorted(os.listdir(r_)):
+                if os.path.isfile(os.path.join(r_, m, "data", f"{args.tile}_s2km_y{y_}.tif")):
+                    if m not in order:
+                        order.append(m)
+    else:
+        order = sorted(panels)
+
+    n = len(order)
     ncol = 6
     nrow = int(np.ceil(n / ncol))
     fig, axes = plt.subplots(nrow, ncol, figsize=(3.0 * ncol, 3.2 * nrow))
     axes = np.atleast_1d(axes).ravel()
-    for ax, (m, arr, style, unit, small) in zip(axes, panels):
+    n_missing = 0
+    for ax, m in zip(axes, order):
+        if m not in panels:
+            n_missing += 1
+            ax.set_facecolor("#f2f2f2")
+            ax.text(0.5, 0.5, "not available\nfor this year", ha="center", va="center",
+                    fontsize=8, color="#999999", transform=ax.transAxes)
+            ax.set_title(f"{m}\n(missing)", fontsize=9, color="#999999")
+            ax.set_xticks([])
+            ax.set_yticks([])
+            for sp in ax.spines.values():
+                sp.set_color("#dddddd")
+                sp.set_linestyle("--")
+            continue
+        arr, style, unit, small = panels[m]
         if arr.ndim == 3:
             ax.imshow(arr.astype("uint8"))
             ax.set_title(m, fontsize=9)
@@ -243,7 +303,10 @@ def main():
     for ax in axes[n:]:
         ax.axis("off")
     fig.suptitle(
-        f"Singapore · 2KM tile {args.tile} · {args.year} · {n} modalities",
+        f"Singapore · 2KM tile {args.tile} · {args.year} · "
+        + (f"{len(panels)} modalities" if len(panels) == n
+           else f"{len(panels)} of {n} modalities")
+        + (f" · {n_missing} not available this year" if n_missing else ""),
         fontsize=16, y=0.997,
     )
     fig.tight_layout(rect=[0, 0, 1, 0.985])
